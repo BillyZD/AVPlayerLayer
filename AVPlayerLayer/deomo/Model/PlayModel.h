@@ -11,9 +11,8 @@
 
 /// 准备开始播放的通知
 #define ReadyToPlay_Notification @"READ_TO_PLAY_NOTIFICATION"
-/// 播放失败的通知
+/// 播放加载失败的通知
 #define PlayFailed_Notification @"PLAY_FAILED_NOTFICATION"
-
 
 @interface PlayModel : NSObject
 /// 播放的layer
@@ -26,4 +25,6 @@
 -(void)reStartPlay ;
 /// 暂停播放
 -(void)stopPlay ;
+/// 是否正在播放
+-(BOOL)isPlaying;
 @end

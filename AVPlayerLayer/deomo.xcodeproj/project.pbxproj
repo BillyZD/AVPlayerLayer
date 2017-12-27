@@ -18,6 +18,7 @@
 		F40E336B1FED4FC500AD4DD6 /* deomoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = F40E336A1FED4FC500AD4DD6 /* deomoUITests.m */; };
 		F40E338A1FF0924D00AD4DD6 /* PlayBgView.m in Sources */ = {isa = PBXBuildFile; fileRef = F40E33891FF0924D00AD4DD6 /* PlayBgView.m */; };
 		F40E338E1FF099F600AD4DD6 /* PlayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F40E338D1FF099F600AD4DD6 /* PlayModel.m */; };
+		F43FD6911FF298F400CEE4E2 /* ToolProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F43FD6901FF298F400CEE4E2 /* ToolProgressView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,8 @@
 		F40E33891FF0924D00AD4DD6 /* PlayBgView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayBgView.m; sourceTree = "<group>"; };
 		F40E338C1FF099F600AD4DD6 /* PlayModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayModel.h; sourceTree = "<group>"; };
 		F40E338D1FF099F600AD4DD6 /* PlayModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayModel.m; sourceTree = "<group>"; };
+		F43FD68F1FF298F400CEE4E2 /* ToolProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolProgressView.h; sourceTree = "<group>"; };
+		F43FD6901FF298F400CEE4E2 /* ToolProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolProgressView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +148,8 @@
 			children = (
 				F40E33881FF0924D00AD4DD6 /* PlayBgView.h */,
 				F40E33891FF0924D00AD4DD6 /* PlayBgView.m */,
+				F43FD68F1FF298F400CEE4E2 /* ToolProgressView.h */,
+				F43FD6901FF298F400CEE4E2 /* ToolProgressView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -304,6 +309,7 @@
 			files = (
 				F40E334E1FED4FC500AD4DD6 /* deomo.xcdatamodeld in Sources */,
 				F40E33481FED4FC500AD4DD6 /* ViewController.m in Sources */,
+				F43FD6911FF298F400CEE4E2 /* ToolProgressView.m in Sources */,
 				F40E33561FED4FC500AD4DD6 /* main.m in Sources */,
 				F40E338A1FF0924D00AD4DD6 /* PlayBgView.m in Sources */,
 				F40E33451FED4FC500AD4DD6 /* AppDelegate.m in Sources */,
@@ -471,7 +477,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 76BMF3T3AW;
 				INFOPLIST_FILE = deomo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = zd.deomo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -484,7 +492,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 76BMF3T3AW;
 				INFOPLIST_FILE = deomo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = zd.deomo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
