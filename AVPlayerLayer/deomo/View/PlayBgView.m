@@ -9,10 +9,15 @@
 #import "PlayBgView.h"
 #import "ToolProgressView.h"
 
+
+
 @interface PlayBgView()
 @property (nonatomic , strong)UIButton *playButton;
 @property (nonatomic , strong)UIActivityIndicatorView * active;
 @property (nonatomic , strong)ToolProgressView *toolView;
+@property (nonatomic , assign)BOOL isAnimation;
+@property (nonatomic , assign)BOOL isToolHiddlen;
+
 @end
 
 @implementation PlayBgView
@@ -21,21 +26,15 @@
     if (self = [super init]){
         [self configUI];
         [self configBlock];
+        [self addTapGestureToView];
+        self.isToolHiddlen = true;
     }
     return  self;
-}
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [super touchesBegan: touches withEvent: event];
-    NSLog(@"点击了");
-    static BOOL isHiddlen = true;
-    [self isHiddenToolView: isHiddlen];
-    isHiddlen = !isHiddlen;
 }
 # pragma mark - layoutSubviews
 -(void)layoutSubviews {
     self.active.center = self.center;
 }
-
 # pragma mark - cofigUI
 /// 布局所有界面
 -(void)configUI {
@@ -77,14 +76,29 @@
         _toolView = [[ToolProgressView alloc] init];
         _toolView.layer.zPosition = 11;
         _toolView.translatesAutoresizingMaskIntoConstraints = false;
+        _toolView.alpha = 0;
     }
     return _toolView;
 }
 # pragma mark logic
+/// 添加点击手势
+-(void)addTapGestureToView {
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleViewTapGesture)];
+    [tapGesture setNumberOfTapsRequired: 1];
+    [self addGestureRecognizer: tapGesture];
+}
+/// 响应屏幕点击事件
+-(void)handleViewTapGesture {
+    if ([self.toolViewDelgate respondsToSelector: @selector(tapGestureForView)]) {
+        [self.toolViewDelgate tapGestureForView];
+        [self performSelector: @selector(HandlePerform) withObject: nil
+                   afterDelay: 5];
+    }
+}
 /// 播放按钮的点击事件
 -(void)playButtonClick: (UIButton *)sender {
-    if (self.buttonClickBock) {
-        self.buttonClickBock();
+    if (self.playbuttonClickBock) {
+        self.playbuttonClickBock(true);
     }
 }
 /// 设置回调
@@ -93,6 +107,11 @@
     self.toolView.isFullBlock = ^(BOOL isFull) {
         if ([weakSelf.toolViewDelgate respondsToSelector: @selector(forceIsfullScreen:)]) {
               [weakSelf.toolViewDelgate forceIsfullScreen: isFull];
+        }
+    };
+    self.toolView.isPlayBlock = ^(BOOL isPlay) {
+        if (weakSelf.playbuttonClickBock) {
+            weakSelf.playbuttonClickBock(isPlay);
         }
     };
 }
@@ -106,14 +125,25 @@
     show == true ? [self.active startAnimating] : [self.active stopAnimating];
 }
 /// 是否显示tool
--(void)isHiddenToolView:(BOOL)hiddlen {
+-(void)hiddenToolView:(BOOL)hiddlen {
     __weak PlayBgView *weakSelf =self;
+    self.isAnimation = true;
+    self.isToolHiddlen = hiddlen;
     [UIView animateWithDuration: 0.5 animations:^{
         hiddlen == true ? (weakSelf.toolView.alpha = 0) : (weakSelf.toolView.alpha = 1);
+    } completion:^(BOOL finished) {
+        weakSelf.isAnimation = false;
     }];
 }
+///设置全屏按钮的状态
 -(void)setFullButtonStatus:(BOOL)isFull {
     [self.toolView setButtonFullStatus: isFull];
+}
+/// 后台自动隐藏底部的工具栏
+-(void)HandlePerform {
+    if (self.isAnimation == false && self.isToolHiddlen == false) {
+        [self hiddenToolView: true];
+    }
 }
 @end
 

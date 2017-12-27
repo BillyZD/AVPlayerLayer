@@ -27,7 +27,6 @@
 @implementation ViewController
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
     [self configU];
     [self configBolck];
@@ -44,7 +43,10 @@
     self.playModel.playLayer.frame = self.playView.bounds;
 }
 -(BOOL)shouldAutorotate {
-    return self.playModel.isPlaying;
+    if (self.playModel.playStatus == AVPlayNoStartStatus) {
+        return  false;
+    }
+    return true;
 }
 
 #pragma mark - initUI
@@ -63,7 +65,7 @@
     [NSLayoutConstraint deactivateConstraints:@[self.bottomConstraint]];
 }
 #pragma mark logic
-/// 设置播放模型
+/// 设置播放链接开始播放
 -(void)configPlayModel: (NSString *)playUrlStr {
     [self.playModel startPlay: playUrlStr];
     self.playModel.playLayer.frame = self.playView.bounds;
@@ -92,16 +94,24 @@
 /// 设置block的回调
 -(void)configBolck {
     __weak ViewController *weakSelf = self;
-    self.playView.buttonClickBock = ^(void) {
-        [weakSelf VedioPlayButtonBolck];
+    self.playView.playbuttonClickBock = ^(BOOL isPlay) {
+        if (isPlay == true) {
+            if (weakSelf.playModel.playStatus == AVPlayNoStartStatus) {
+                 [weakSelf VedioPlayButtonBolck];
+            }else if (weakSelf.playModel.playStatus == AVPlayPauseStatus) {
+                [weakSelf.playModel reStartPlay];
+            }
+        }else{
+            [weakSelf.playModel pausePlay];
+        }
     };
 }
 /// 处理屏幕旋转问题
 -(void)handleDeviceOrigientChange: (NSNotification *)fiaciton {
     UIDeviceOrientation duration = [[UIDevice currentDevice] orientation];
-    if ([self.playModel isPlaying]) {
+    if (self.playModel.playStatus != AVPlayNoStartStatus) {
         switch (duration) {
-            case UIDeviceOrientationLandscapeLeft :
+            case UIDeviceOrientationLandscapeLeft:
                 [self fullScreenLayout];
                 break;
             case UIDeviceOrientationLandscapeRight:
@@ -117,7 +127,7 @@
 }
 /// 布局全屏的约束·
 -(void)fullScreenLayout {
-    [NSLayoutConstraint deactivateConstraints:@[self.heightConstraint]];
+    [NSLayoutConstraint deactivateConstraints: @[self.heightConstraint]];
     [NSLayoutConstraint activateConstraints: @[self.bottomConstraint]];
     [self.playView setFullButtonStatus: true];
 }
@@ -141,6 +151,7 @@
     return _playView;
 }
 #pragma mark - delgate
+/// 强制转屏
 -(void)forceIsfullScreen:(BOOL)isFull {
     if (isFull) {
         NSNumber *resetOrientationTarget = [NSNumber numberWithInt: UIInterfaceOrientationLandscapeLeft];
@@ -149,12 +160,17 @@
         NSNumber *resetOrientationTarget = [NSNumber numberWithInt: UIDeviceOrientationPortrait];
         [[UIDevice currentDevice] setValue: resetOrientationTarget forKey: @"orientation"];
     }
-   
+}
+/// 点击播放器
+-(void)tapGestureForView {
+    if (self.playView.isAnimation == false && self.playModel.playStatus != AVPlayNoStartStatus) {
+        [self.playView hiddenToolView: !self.playView.isToolHiddlen];
+    }
 }
 #pragma mark register fication and remove fication
 /// 注册通知
 -(void)registerNotification{
-    /// 注册准备·开始播放的通知
+    /// 注册准备开始播放的通知
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(VedioLoadFinisFication) name: ReadyToPlay_Notification object: nil];
     /// 注册完成播放的通知
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(VedioPlayFinishFication) name: AVPlayerItemDidPlayToEndTimeNotification object: nil];
