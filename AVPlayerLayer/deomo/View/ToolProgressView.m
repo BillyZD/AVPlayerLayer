@@ -16,6 +16,7 @@
 @property(nonatomic , strong)UIButton *fullButton;
 /// 暂停或者播放的button
 @property(nonatomic ,strong)UIButton *playButton;
+/// 测试
 @end
 
 @implementation ToolProgressView
