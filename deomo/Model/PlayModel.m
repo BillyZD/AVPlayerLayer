@@ -14,6 +14,10 @@
 @property(nonatomic , strong)AVPlayer *avLayer;
 @property(nonatomic , assign)AVPlayStatus playStatus;
 @property(nonatomic , copy)NSString *currentPlayStr;
+/// 视频总的时间
+@property(nonatomic , assign)NSTimeInterval totoalTime;
+/// 视频当前的播放时间
+@property(nonatomic , assign)NSTimeInterval currentTime;
 @end
 
 @implementation PlayModel
@@ -49,6 +53,7 @@
             NSLog(@"%@", playitem.loadedTimeRanges);
         }else if ([keyPath isEqualToString: @"status"]) {
             if (playitem.status == AVPlayerItemStatusReadyToPlay){
+                 self.totoalTime = CMTimeGetSeconds(self.avLayer.currentItem.duration);
                 [[NSNotificationCenter defaultCenter] postNotificationName: ReadyToPlay_Notification object:nil];
             }else if (playitem.status == AVPlayerItemStatusFailed) {
                 [[NSNotificationCenter defaultCenter] postNotificationName: PlayFailed_Notification object:nil];
@@ -62,8 +67,13 @@
             NSLog(@"播放中");
             self.playStatus = AVPlayPlayingStatus;
         }else if (play.timeControlStatus == AVPlayerTimeControlStatusPaused) {
-             NSLog(@"暂停了");
-            self.playStatus = AVPlayPauseStatus;
+            NSTimeInterval current = CMTimeGetSeconds(self.avLayer.currentTime);
+            if (current == self.totoalTime) {
+                self.playStatus = AVPlayFinishStatus;
+            }else{
+                 NSLog(@"暂停了");
+                self.playStatus = AVPlayPauseStatus;
+            }
         }else if (play.timeControlStatus == AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate) {
             NSLog(@"缓冲");
             self.playStatus = AVPlayWaitStatus;
@@ -113,13 +123,18 @@
 }
 /// 完成播放的通知回调
 -(void)playFinishFication: (NSNotification *)fication {
-    [_avLayer removeObserver: self forKeyPath: @"timeControlStatus"];
+    NSLog(@"播放完成了");
     self.playStatus = AVPlayFinishStatus;
     if (self.playFinishBlock) {
         self.playFinishBlock(true, self.currentPlayStr);
     }
 }
-
+/// 设置开始播放的播放
+-(void)seekPlayTime:(NSTimeInterval)time {
+    CMTime seekTime = CMTimeMake(time, 1);
+    [self.avLayer seekToTime:seekTime];
+    [self reStartPlay];
+}
 /// 添加AVPlayerItem的播放状态监听
 -(void)addObservsForPlayItem: (AVPlayerItem *)item {
     [item addObserver: self forKeyPath: @"status" options: NSKeyValueObservingOptionNew context: nil];

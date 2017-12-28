@@ -78,6 +78,7 @@
 /// 视频加载完成准备播放的通知
 -(void)VedioLoadFinisFication {
     NSLog(@"可以开始播放，拖动进度条，设置开始播放时间");
+    [self.playModel seekPlayTime: 35];
 }
 /// 处理点击视频播放按钮的回调(播放状态是未开始，没有加载过播放资源)
 -(void)VedioPlayButtonBolck {
@@ -101,6 +102,7 @@
             NSLog(@"开始播放");
             [self.playView isBufferAnimaiton: false];
             [self.playView setToolPlayingButtonStatus: true];
+            [self.playView setPlayButtonStatus: true]; // 显示播放按钮
         default:
             break;
     }
@@ -116,13 +118,20 @@
             }else if (weakSelf.playModel.playStatus == AVPlayPauseStatus) {
                 [weakSelf.playView setPlayButtonStatus: true];
                 [weakSelf.playModel reStartPlay];
+            }else if (weakSelf.playModel.playStatus == AVPlayFinishStatus) {
+                [weakSelf.playView setPlayButtonStatus: true]; // 隐藏播放button
+                [weakSelf.playModel seekPlayTime: 0];   // 重新开始播放；
             }
         }else{
+            [weakSelf.playView isBufferAnimaiton: false];
             [weakSelf.playModel pausePlay];
         }
     };
     self.playModel.playStatusChange = ^(AVPlayStatus status) {
         [weakSelf handlePlayChange: status];
+    };
+    self.playModel.playFinishBlock = ^(BOOL isFinish, NSString *url) {
+        [weakSelf.playView setPlayButtonStatus: false];
     };
 }
 /// 处理屏幕旋转问题
@@ -182,7 +191,7 @@
 }
 /// 点击播放器
 -(void)tapGestureForView {
-    if (self.playView.isAnimation == false && self.playModel.playStatus != AVPlayNoStartStatus && self.playModel.playStatus != AVPlayFinishStatus) {
+    if (self.playView.isAnimation == false && self.playModel.playStatus != AVPlayNoStartStatus && self.playModel.playStatus != AVPlayFinishStatus  && self.playModel.playStatus != AVPlayPauseStatus) {
         [self.playView hiddenToolView: !self.playView.isToolHiddlen];
     }
 }

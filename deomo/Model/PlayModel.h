@@ -47,4 +47,6 @@ typedef NS_ENUM(NSInteger , AVPlayStatus){
 -(void)pausePlay ;
 /// 释放当前的播放器
 -(void)freePlayer;
+/// 设置开始播放的时间
+-(void)seekPlayTime:(NSTimeInterval)time;
 @end
