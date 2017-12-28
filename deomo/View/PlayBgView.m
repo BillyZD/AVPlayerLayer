@@ -116,7 +116,7 @@
     };
 }
 /// 设置播放按钮的状态
--(void)setPlayStatus:(BOOL)isPlay {
+-(void)setPlayButtonStatus:(BOOL)isPlay {
     self.backgroundColor = [UIColor blackColor];
     self.playButton.hidden = isPlay;
 }
@@ -138,6 +138,10 @@
 ///设置全屏按钮的状态
 -(void)setFullButtonStatus:(BOOL)isFull {
     [self.toolView setButtonFullStatus: isFull];
+}
+/// 设置播放按钮的状态
+-(void)setToolPlayingButtonStatus:(BOOL)isPlaying {
+    [self.toolView setPlayButtonStatus: isPlaying];
 }
 /// 后台自动隐藏底部的工具栏
 -(void)HandlePerform {

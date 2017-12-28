@@ -13,6 +13,7 @@
 @property(nonatomic , strong)AVPlayerLayer *playLayer;
 @property(nonatomic , strong)AVPlayer *avLayer;
 @property(nonatomic , assign)AVPlayStatus playStatus;
+@property(nonatomic , copy)NSString *currentPlayStr;
 @end
 
 @implementation PlayModel
@@ -21,13 +22,14 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharePlayer = [[PlayModel alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver: sharePlayer selector: @selector(playFinishFication:) name: AVPlayerItemDidPlayToEndTimeNotification object: nil];
     });
     return sharePlayer;
 }
 
 -(void)dealloc {
     NSLog(@"dealloc: PlayModel");
-    [self removeObserver: self forKeyPath: @"status"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self  name:AVPlayerItemDidPlayToEndTimeNotification object: nil];
 }
 # pragma mark - set and get
 -(AVPlayerLayer *)playLayer {
@@ -63,8 +65,11 @@
              NSLog(@"暂停了");
             self.playStatus = AVPlayPauseStatus;
         }else if (play.timeControlStatus == AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate) {
-            NSLog(@"卡住了");
+            NSLog(@"缓冲");
             self.playStatus = AVPlayWaitStatus;
+        }
+        if (self.playStatusChange) {
+            self.playStatusChange(self.playStatus);
         }
     }
 }
@@ -80,8 +85,10 @@
     [self.playLayer setPlayer: self.avLayer];
     // 添加监听
     [self addObservsForPlayItem: playItem];
-    /// 从当前的item开始播放
+    // 从当前的item开始播放
     [self reStartPlay];
+    // 标记当前播放的链接
+    self.currentPlayStr = urlStr;
 }
 /// 开始播放
 -(void)reStartPlay {
@@ -91,24 +98,26 @@
 -(void)pausePlay {
     [self.avLayer pause];
 }
--(BOOL)isPlaying {
-    if (self.avLayer.rate == 0) {
-        return NO;
-    }
-    return  YES;
-}
 /// 释放当前的播放器
 -(void)freePlayer {
     if (_avLayer) {
         if (_avLayer.currentItem) {
             [self removeObsersForPlayItem: _avLayer.currentItem];
-            [self pausePlay];
             [_avLayer replaceCurrentItemWithPlayerItem: nil];
-            [_avLayer removeObserver: self forKeyPath: @"timeControlStatus"];
-            _avLayer = nil;
         }
+        [self pausePlay];
+        [_avLayer removeObserver: self forKeyPath: @"timeControlStatus"];
+        _avLayer = nil;
     }
     self.playStatus = AVPlayNoStartStatus;
+}
+/// 完成播放的通知回调
+-(void)playFinishFication: (NSNotification *)fication {
+    [_avLayer removeObserver: self forKeyPath: @"timeControlStatus"];
+    self.playStatus = AVPlayFinishStatus;
+    if (self.playFinishBlock) {
+        self.playFinishBlock(true, self.currentPlayStr);
+    }
 }
 
 /// 添加AVPlayerItem的播放状态监听

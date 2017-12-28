@@ -22,6 +22,7 @@
 @property(nonatomic , strong)NSLayoutConstraint *bottomConstraint;
 /// 控制视频播放器的高度
 @property(nonatomic , strong)NSLayoutConstraint *heightConstraint;
+
 @end
 
 @implementation ViewController
@@ -69,28 +70,42 @@
 -(void)configPlayModel: (NSString *)playUrlStr {
     [self.playModel startPlay: playUrlStr];
     self.playModel.playLayer.frame = self.playView.bounds;
-    
+    // 隐藏播放按钮
+    [self.playView setPlayButtonStatus: true];
+    // 添加缓冲菊花
+    [self.playView isBufferAnimaiton: true];
 }
 /// 视频加载完成准备播放的通知
 -(void)VedioLoadFinisFication {
-    NSLog(@"准备播放了");
-    /// 移除加载的菊花
-    [self.playView isBufferAnimaiton: false];
+    NSLog(@"可以开始播放，拖动进度条，设置开始播放时间");
 }
-/// 处理点击视频播放按钮的回调
+/// 处理点击视频播放按钮的回调(播放状态是未开始，没有加载过播放资源)
 -(void)VedioPlayButtonBolck {
-    // 隐藏播放按钮
-    [self.playView setPlayStatus: true];
-    // 添加缓冲菊花
-    [self.playView isBufferAnimaiton: true];
     // 设置播放链接
     [self configPlayModel: @"http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"];
 }
-/// 播放完成的处理
--(void)VedioPlayFinishFication {
-    NSLog(@"播放完成");
-    [self.playView setPlayStatus: false];
+/// 处理播放状态发生变化的回调
+-(void)handlePlayChange: (AVPlayStatus) status {
+    switch (status) {
+        case AVPlayWaitStatus:
+            NSLog(@"缓冲");
+            [self.playView isBufferAnimaiton: true];
+            break;
+        case AVPlayPauseStatus:
+            NSLog(@"播放暂停了");
+            [self.playView setToolPlayingButtonStatus: false];
+            [self.playView setPlayButtonStatus: false]; // 显示播放按钮
+            [self.playView hiddenToolView: true];// 隐藏地步的tool
+            break;
+        case AVPlayPlayingStatus:
+            NSLog(@"开始播放");
+            [self.playView isBufferAnimaiton: false];
+            [self.playView setToolPlayingButtonStatus: true];
+        default:
+            break;
+    }
 }
+
 /// 设置block的回调
 -(void)configBolck {
     __weak ViewController *weakSelf = self;
@@ -99,11 +114,15 @@
             if (weakSelf.playModel.playStatus == AVPlayNoStartStatus) {
                  [weakSelf VedioPlayButtonBolck];
             }else if (weakSelf.playModel.playStatus == AVPlayPauseStatus) {
+                [weakSelf.playView setPlayButtonStatus: true];
                 [weakSelf.playModel reStartPlay];
             }
         }else{
             [weakSelf.playModel pausePlay];
         }
+    };
+    self.playModel.playStatusChange = ^(AVPlayStatus status) {
+        [weakSelf handlePlayChange: status];
     };
 }
 /// 处理屏幕旋转问题
@@ -163,7 +182,7 @@
 }
 /// 点击播放器
 -(void)tapGestureForView {
-    if (self.playView.isAnimation == false && self.playModel.playStatus != AVPlayNoStartStatus) {
+    if (self.playView.isAnimation == false && self.playModel.playStatus != AVPlayNoStartStatus && self.playModel.playStatus != AVPlayFinishStatus) {
         [self.playView hiddenToolView: !self.playView.isToolHiddlen];
     }
 }
@@ -172,8 +191,6 @@
 -(void)registerNotification{
     /// 注册准备开始播放的通知
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(VedioLoadFinisFication) name: ReadyToPlay_Notification object: nil];
-    /// 注册完成播放的通知
-    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(VedioPlayFinishFication) name: AVPlayerItemDidPlayToEndTimeNotification object: nil];
     /// 监听屏幕的旋转
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(handleDeviceOrigientChange:) name: UIDeviceOrientationDidChangeNotification object: nil];
     
@@ -181,7 +198,6 @@
 /// 移除通知
 -(void)removeNotifiation {
     [[NSNotificationCenter defaultCenter] removeObserver: self name: ReadyToPlay_Notification object: nil];
-    [[NSNotificationCenter defaultCenter] removeObserver: self name: AVPlayerItemDidPlayToEndTimeNotification object: nil];
     [[NSNotificationCenter defaultCenter] removeObserver: self name: UIDeviceOrientationDidChangeNotification object: nil];
 }
 

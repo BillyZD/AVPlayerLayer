@@ -8,8 +8,6 @@
 
 #import "ToolProgressView.h"
 
-
-
 @interface ToolProgressView()
 @property(nonatomic , strong) UISlider *slider;
 /// 全屏的button
@@ -57,9 +55,8 @@
 }
 /// 暂停或者播放的button的点击事件
 -(void)playButtonClick: (UIButton *)sender {
-    sender.selected = !sender.selected;
     if (self.isPlayBlock) {
-        self.isPlayBlock(sender.selected);
+        self.isPlayBlock(!sender.selected);
     }
 }
 /// 设置播放按钮的状态
