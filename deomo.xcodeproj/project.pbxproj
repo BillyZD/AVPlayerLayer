@@ -19,6 +19,8 @@
 		F40E338A1FF0924D00AD4DD6 /* PlayBgView.m in Sources */ = {isa = PBXBuildFile; fileRef = F40E33891FF0924D00AD4DD6 /* PlayBgView.m */; };
 		F40E338E1FF099F600AD4DD6 /* PlayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F40E338D1FF099F600AD4DD6 /* PlayModel.m */; };
 		F43151811FF6071D00D43B58 /* ZDSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = F43151801FF6071D00D43B58 /* ZDSlider.m */; };
+		F43151871FFBB4E100D43B58 /* ZDTimerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F43151861FFBB4E100D43B58 /* ZDTimerModel.m */; };
+		F431518A1FFBC36900D43B58 /* ZDDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F43151891FFBC36900D43B58 /* ZDDownViewController.m */; };
 		F43FD6911FF298F400CEE4E2 /* ToolProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F43FD6901FF298F400CEE4E2 /* ToolProgressView.m */; };
 		F43FD69F1FF3E6E900CEE4E2 /* video-pause@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F43FD69B1FF3E6E900CEE4E2 /* video-pause@3x.png */; };
 		F43FD6A01FF3E6E900CEE4E2 /* video-play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F43FD69C1FF3E6E900CEE4E2 /* video-play@2x.png */; };
@@ -67,6 +69,10 @@
 		F40E338D1FF099F600AD4DD6 /* PlayModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayModel.m; sourceTree = "<group>"; };
 		F431517F1FF6071D00D43B58 /* ZDSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDSlider.h; sourceTree = "<group>"; };
 		F43151801FF6071D00D43B58 /* ZDSlider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDSlider.m; sourceTree = "<group>"; };
+		F43151851FFBB4E100D43B58 /* ZDTimerModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDTimerModel.h; sourceTree = "<group>"; };
+		F43151861FFBB4E100D43B58 /* ZDTimerModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDTimerModel.m; sourceTree = "<group>"; };
+		F43151881FFBC36900D43B58 /* ZDDownViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDDownViewController.h; sourceTree = "<group>"; };
+		F43151891FFBC36900D43B58 /* ZDDownViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDDownViewController.m; sourceTree = "<group>"; };
 		F43FD68F1FF298F400CEE4E2 /* ToolProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolProgressView.h; sourceTree = "<group>"; };
 		F43FD6901FF298F400CEE4E2 /* ToolProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolProgressView.m; sourceTree = "<group>"; };
 		F43FD69B1FF3E6E900CEE4E2 /* video-pause@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-pause@3x.png"; sourceTree = "<group>"; };
@@ -123,6 +129,7 @@
 		F40E33421FED4FC500AD4DD6 /* deomo */ = {
 			isa = PBXGroup;
 			children = (
+				F43151841FFBB4AC00D43B58 /* Tool */,
 				F43FD6921FF3E64100CEE4E2 /* rescoures */,
 				F40E338B1FF099DD00AD4DD6 /* Model */,
 				F40E33861FF091E600AD4DD6 /* View */,
@@ -175,6 +182,8 @@
 				F40E33441FED4FC500AD4DD6 /* AppDelegate.m */,
 				F40E33461FED4FC500AD4DD6 /* ViewController.h */,
 				F40E33471FED4FC500AD4DD6 /* ViewController.m */,
+				F43151881FFBC36900D43B58 /* ZDDownViewController.h */,
+				F43151891FFBC36900D43B58 /* ZDDownViewController.m */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -186,6 +195,15 @@
 				F40E338D1FF099F600AD4DD6 /* PlayModel.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		F43151841FFBB4AC00D43B58 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				F43151851FFBB4E100D43B58 /* ZDTimerModel.h */,
+				F43151861FFBB4E100D43B58 /* ZDTimerModel.m */,
+			);
+			path = Tool;
 			sourceTree = "<group>";
 		};
 		F43FD6921FF3E64100CEE4E2 /* rescoures */ = {
@@ -339,8 +357,10 @@
 				F40E334E1FED4FC500AD4DD6 /* deomo.xcdatamodeld in Sources */,
 				F40E33481FED4FC500AD4DD6 /* ViewController.m in Sources */,
 				F43FD6911FF298F400CEE4E2 /* ToolProgressView.m in Sources */,
+				F43151871FFBB4E100D43B58 /* ZDTimerModel.m in Sources */,
 				F40E33561FED4FC500AD4DD6 /* main.m in Sources */,
 				F40E338A1FF0924D00AD4DD6 /* PlayBgView.m in Sources */,
+				F431518A1FFBC36900D43B58 /* ZDDownViewController.m in Sources */,
 				F40E33451FED4FC500AD4DD6 /* AppDelegate.m in Sources */,
 				F43151811FF6071D00D43B58 /* ZDSlider.m in Sources */,
 				F40E338E1FF099F600AD4DD6 /* PlayModel.m in Sources */,

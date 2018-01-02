@@ -35,6 +35,8 @@ typedef NS_ENUM(NSInteger , AVPlayStatus){
 @property(nonatomic , assign , readonly)AVPlayStatus playStatus;
 /// 视频总的时间
 @property(nonatomic , assign , readonly)NSTimeInterval totoalTime;
+/// 当前视频播放的时间
+@property(nonatomic , assign , readonly)NSTimeInterval currentTime;
 /// 播放完成的回调
 @property(nonatomic , copy , readwrite)void (^playFinishBlock)(BOOL isFinish,NSString* url);
 /// 播放状态变化的回调

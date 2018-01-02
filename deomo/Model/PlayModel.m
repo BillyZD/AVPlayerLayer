@@ -43,6 +43,9 @@
     }
     return _playLayer;
 }
+-(NSTimeInterval)currentTime {
+    return CMTimeGetSeconds(self.avLayer.currentTime);
+}
 
 #pragma mark -logic
 /// 监听回调

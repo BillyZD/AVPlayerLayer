@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import "PlayModel.h"
 #import "PlayBgView.h"
+#import "ZDTimerModel.h"
+#import "ZDDownViewController.h"
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -22,6 +24,8 @@
 @property(nonatomic , strong)NSLayoutConstraint *bottomConstraint;
 /// 控制视频播放器的高度
 @property(nonatomic , strong)NSLayoutConstraint *heightConstraint;
+/// 控制时间的模型
+@property(nonatomic , strong)ZDTimerModel *timerModel;
 
 @end
 
@@ -48,6 +52,9 @@
         return  false;
     }
     return true;
+}
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent: event];
 }
 
 #pragma mark - initUI
@@ -86,6 +93,11 @@
     [self.playView setSliderInterac: false];
     // 设置播放链接
     [self configPlayModel: @"http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"];
+    __weak ViewController *weakSelf = self;
+    // 启动GCD定时
+    [self.timerModel startTimerDelayTime: 0 RepeatTime: 1 HandleBlock:^{
+        [weakSelf handleGCDTimerBlock];
+    }];
 }
 /// 处理播放状态发生变化的回调
 -(void)handlePlayChange: (AVPlayStatus) status {
@@ -101,7 +113,6 @@
             if (self.playView.isSeeking == false) {
                  [self.playView hiddenToolView: true];// 隐藏底部的tool
             }
-           
             break;
         case AVPlayPlayingStatus:
             NSLog(@"开始播放");
@@ -112,20 +123,26 @@
             break;
     }
 }
+/// 处理定时器方法
+-(void)handleGCDTimerBlock {
+    [self.playView setCurrentTime:self.playModel.currentTime  AndTotalTime: self.playModel.totoalTime];
+    [self.playView setCurrenPlayTime:self.playModel.currentTime];
+}
 
 /// 设置block的回调
 -(void)configBolck {
     __weak ViewController *weakSelf = self;
     self.playView.playbuttonClickBock = ^(BOOL isPlay) {
         if (isPlay == true) {
-            if (weakSelf.playModel.playStatus == AVPlayNoStartStatus) {
-                 [weakSelf VedioPlayButtonBolck];
-            }else if (weakSelf.playModel.playStatus == AVPlayPauseStatus) {
-                [weakSelf.playView setPlayButtonStatus: true];
-                [weakSelf.playModel reStartPlay];
-            }else if (weakSelf.playModel.playStatus == AVPlayFinishStatus) {
+            if (weakSelf.playModel.playStatus == AVPlayNoStartStatus) { // 还没开始播放
+                 [weakSelf VedioPlayButtonBolck]; // 设置播放链接开始播放
+            }else if (weakSelf.playModel.playStatus == AVPlayPauseStatus) {  // 暂定状态
+                [weakSelf.playView setPlayButtonStatus: true]; // 隐藏播放按钮
+                [weakSelf.playModel reStartPlay]; // 重新开始播放
+            }else if (weakSelf.playModel.playStatus == AVPlayFinishStatus) { 
                 [weakSelf.playView setPlayButtonStatus: true]; // 隐藏播放button
                 [weakSelf.playModel seekPlayTime: 0];   // 重新开始播放；
+                [weakSelf.timerModel resumeGCDTimer]; // 重新启动定时器
             }
         }else{
             [weakSelf.playView isBufferAnimaiton: false];
@@ -136,8 +153,9 @@
         [weakSelf handlePlayChange: status];
     };
     self.playModel.playFinishBlock = ^(BOOL isFinish, NSString *url) {
-        [weakSelf.playView setPlayButtonStatus: false];
-        [weakSelf.playView hiddenToolView: true];
+        [weakSelf.playView setPlayButtonStatus: false]; // 显示屏幕的播放按钮
+        [weakSelf.playView hiddenToolView: true]; // 隐藏底部的工具栏
+        [weakSelf.timerModel pauseGCDTimer]; // 暂停定时器
     };
     self.playModel.getVidetTotalTimeBlock = ^(NSTimeInterval totalTime) {
         [weakSelf.playView setTotalPlayTime: totalTime];
@@ -186,6 +204,12 @@
         _playView = [[PlayBgView alloc] init];
     }
     return _playView;
+}
+-(ZDTimerModel *)timerModel {
+    if (!_timerModel) {
+        _timerModel = [[ZDTimerModel alloc] init];
+    }
+    return _timerModel;
 }
 #pragma mark - delgate
 /// 强制转屏
