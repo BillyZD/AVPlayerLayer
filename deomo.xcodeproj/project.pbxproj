@@ -18,6 +18,7 @@
 		F40E336B1FED4FC500AD4DD6 /* deomoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = F40E336A1FED4FC500AD4DD6 /* deomoUITests.m */; };
 		F40E338A1FF0924D00AD4DD6 /* PlayBgView.m in Sources */ = {isa = PBXBuildFile; fileRef = F40E33891FF0924D00AD4DD6 /* PlayBgView.m */; };
 		F40E338E1FF099F600AD4DD6 /* PlayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F40E338D1FF099F600AD4DD6 /* PlayModel.m */; };
+		F43151811FF6071D00D43B58 /* ZDSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = F43151801FF6071D00D43B58 /* ZDSlider.m */; };
 		F43FD6911FF298F400CEE4E2 /* ToolProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F43FD6901FF298F400CEE4E2 /* ToolProgressView.m */; };
 		F43FD69F1FF3E6E900CEE4E2 /* video-pause@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F43FD69B1FF3E6E900CEE4E2 /* video-pause@3x.png */; };
 		F43FD6A01FF3E6E900CEE4E2 /* video-play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F43FD69C1FF3E6E900CEE4E2 /* video-play@2x.png */; };
@@ -64,6 +65,8 @@
 		F40E33891FF0924D00AD4DD6 /* PlayBgView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayBgView.m; sourceTree = "<group>"; };
 		F40E338C1FF099F600AD4DD6 /* PlayModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayModel.h; sourceTree = "<group>"; };
 		F40E338D1FF099F600AD4DD6 /* PlayModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayModel.m; sourceTree = "<group>"; };
+		F431517F1FF6071D00D43B58 /* ZDSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDSlider.h; sourceTree = "<group>"; };
+		F43151801FF6071D00D43B58 /* ZDSlider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDSlider.m; sourceTree = "<group>"; };
 		F43FD68F1FF298F400CEE4E2 /* ToolProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolProgressView.h; sourceTree = "<group>"; };
 		F43FD6901FF298F400CEE4E2 /* ToolProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolProgressView.m; sourceTree = "<group>"; };
 		F43FD69B1FF3E6E900CEE4E2 /* video-pause@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-pause@3x.png"; sourceTree = "<group>"; };
@@ -159,6 +162,8 @@
 				F40E33891FF0924D00AD4DD6 /* PlayBgView.m */,
 				F43FD68F1FF298F400CEE4E2 /* ToolProgressView.h */,
 				F43FD6901FF298F400CEE4E2 /* ToolProgressView.m */,
+				F431517F1FF6071D00D43B58 /* ZDSlider.h */,
+				F43151801FF6071D00D43B58 /* ZDSlider.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -337,6 +342,7 @@
 				F40E33561FED4FC500AD4DD6 /* main.m in Sources */,
 				F40E338A1FF0924D00AD4DD6 /* PlayBgView.m in Sources */,
 				F40E33451FED4FC500AD4DD6 /* AppDelegate.m in Sources */,
+				F43151811FF6071D00D43B58 /* ZDSlider.m in Sources */,
 				F40E338E1FF099F600AD4DD6 /* PlayModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

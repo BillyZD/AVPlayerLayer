@@ -54,6 +54,9 @@
         }else if ([keyPath isEqualToString: @"status"]) {
             if (playitem.status == AVPlayerItemStatusReadyToPlay){
                  self.totoalTime = CMTimeGetSeconds(self.avLayer.currentItem.duration);
+                if (self.getVidetTotalTimeBlock) {
+                    self.getVidetTotalTimeBlock(self.totoalTime);
+                }
                 [[NSNotificationCenter defaultCenter] postNotificationName: ReadyToPlay_Notification object:nil];
             }else if (playitem.status == AVPlayerItemStatusFailed) {
                 [[NSNotificationCenter defaultCenter] postNotificationName: PlayFailed_Notification object:nil];

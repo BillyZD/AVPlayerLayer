@@ -114,6 +114,24 @@
             weakSelf.playbuttonClickBock(isPlay);
         }
     };
+    self.toolView.touchBeganBlock = ^{
+        if ([weakSelf.toolViewDelgate respondsToSelector: @selector(touchBeganSlide)]) {
+            [weakSelf.toolViewDelgate touchBeganSlide];
+        }
+    };
+    self.toolView.touchEndBlock = ^(float value){
+        if ([weakSelf.toolViewDelgate respondsToSelector: @selector(touchEndSlider:)]) {
+            [weakSelf.toolViewDelgate touchEndSlider: value];
+        }
+    };
+    self.toolView.sliderValueChangeBlock = ^(float value) {
+        if ([weakSelf.toolViewDelgate respondsToSelector: @selector(sliderValeChange:)]) {
+            [weakSelf.toolViewDelgate sliderValeChange: value];
+        }
+    };
+}
+-(BOOL)isSeeking {
+    return self.toolView.isSeeking;
 }
 /// 设置播放按钮的状态
 -(void)setPlayButtonStatus:(BOOL)isPlay {
@@ -145,9 +163,28 @@
 }
 /// 后台自动隐藏底部的工具栏
 -(void)HandlePerform {
-    if (self.isAnimation == false && self.isToolHiddlen == false) {
+    if (self.isAnimation == false && self.isToolHiddlen == false && self.toolView.isSeeking == false) {
         [self hiddenToolView: true];
     }
+}
+/// 设置缓冲的进度0-1
+-(void)setLoadValue: (float)loadVaue {
+    [self.toolView setLoadValue: loadVaue];
+}
+/// 设置当前播放的时常
+-(void)setCurrenPlayTime: (float)playTime {
+    [self.toolView setCurrenPlayTime: playTime];
+}
+/// 设置视频总的时常
+-(void)setTotalPlayTime: (float)totalTime {
+    [self.toolView setTotalPlayTime: totalTime];
+}
+/// 设置进度条是否响应触摸事件
+-(void)setSliderInterac: (BOOL)interac {
+    [self.toolView setSliderInterac: interac];
+}
+-(void)setCurrentTime:(float)currentTime AndTotalTime:(float)totalTime {
+    [self.toolView setCurrentTime:currentTime AndTotalTime: totalTime];
 }
 @end
 

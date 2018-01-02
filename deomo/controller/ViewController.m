@@ -78,10 +78,12 @@
 /// 视频加载完成准备播放的通知
 -(void)VedioLoadFinisFication {
     NSLog(@"可以开始播放，拖动进度条，设置开始播放时间");
-    [self.playModel seekPlayTime: 35];
+    [self.playView setSliderInterac: true];
 }
 /// 处理点击视频播放按钮的回调(播放状态是未开始，没有加载过播放资源)
 -(void)VedioPlayButtonBolck {
+    /// 禁止滑动进度条
+    [self.playView setSliderInterac: false];
     // 设置播放链接
     [self configPlayModel: @"http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"];
 }
@@ -95,8 +97,11 @@
         case AVPlayPauseStatus:
             NSLog(@"播放暂停了");
             [self.playView setToolPlayingButtonStatus: false];
-            [self.playView setPlayButtonStatus: false]; // 显示播放按钮
-            [self.playView hiddenToolView: true];// 隐藏地步的tool
+            [self.playView setPlayButtonStatus: self.playView.isSeeking]; // 显示播放按钮
+            if (self.playView.isSeeking == false) {
+                 [self.playView hiddenToolView: true];// 隐藏底部的tool
+            }
+           
             break;
         case AVPlayPlayingStatus:
             NSLog(@"开始播放");
@@ -132,6 +137,10 @@
     };
     self.playModel.playFinishBlock = ^(BOOL isFinish, NSString *url) {
         [weakSelf.playView setPlayButtonStatus: false];
+        [weakSelf.playView hiddenToolView: true];
+    };
+    self.playModel.getVidetTotalTimeBlock = ^(NSTimeInterval totalTime) {
+        [weakSelf.playView setTotalPlayTime: totalTime];
     };
 }
 /// 处理屏幕旋转问题
@@ -194,6 +203,18 @@
     if (self.playView.isAnimation == false && self.playModel.playStatus != AVPlayNoStartStatus && self.playModel.playStatus != AVPlayFinishStatus  && self.playModel.playStatus != AVPlayPauseStatus) {
         [self.playView hiddenToolView: !self.playView.isToolHiddlen];
     }
+}
+/// 开始拖动进度条
+-(void)touchBeganSlide {
+    [self.playModel pausePlay];
+}
+/// 结束拖动
+-(void)touchEndSlider:(float)value {
+    [self.playModel seekPlayTime: value];
+}
+/// 进度条发生改变的
+-(void)sliderValeChange:(float)value {
+    [self.playView setCurrentTime: value AndTotalTime: self.playModel.totoalTime];
 }
 #pragma mark register fication and remove fication
 /// 注册通知

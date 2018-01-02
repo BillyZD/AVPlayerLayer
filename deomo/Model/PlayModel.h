@@ -33,10 +33,14 @@ typedef NS_ENUM(NSInteger , AVPlayStatus){
 @property(nonatomic , strong , readonly)AVPlayerLayer *playLayer;
 /// 当前播放的状态
 @property(nonatomic , assign , readonly)AVPlayStatus playStatus;
+/// 视频总的时间
+@property(nonatomic , assign , readonly)NSTimeInterval totoalTime;
 /// 播放完成的回调
 @property(nonatomic , copy , readwrite)void (^playFinishBlock)(BOOL isFinish,NSString* url);
 /// 播放状态变化的回调
 @property(nonatomic , copy , readwrite)void (^playStatusChange)(AVPlayStatus status);
+/// 获取播放总时长的回调
+@property(nonatomic , copy , readwrite)void (^getVidetTotalTimeBlock)(NSTimeInterval totalTime);
 /// 单利初始化
 + (instancetype)sharePlayer;
 /// 设置播放链接
