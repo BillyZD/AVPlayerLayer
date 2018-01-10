@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "ZDplayViewController.h"
+#import "BaseNavtationController.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +19,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame: [UIScreen mainScreen].bounds];
+    self.window.rootViewController = [[[BaseNavtationController alloc] initWithRootViewController:[ZDplayViewController alloc]]init];
+    [self.window makeKeyAndVisible];
     return YES;
 }
 

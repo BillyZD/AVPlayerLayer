@@ -45,7 +45,9 @@
     });
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         self.isPause = false;
-        dispatch_resume(self.timer);
+        if (!_timer) {
+            dispatch_resume(self.timer);
+        }
     });
     
 }

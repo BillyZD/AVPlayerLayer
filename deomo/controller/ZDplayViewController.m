@@ -6,16 +6,19 @@
 //  Copyright © 2017年 张冬. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "ZDplayViewController.h"
 #import "PlayModel.h"
 #import "PlayBgView.h"
 #import "ZDTimerModel.h"
 #import "ZDDownViewController.h"
+#import "DownLoadModel.h"
+#import "DownLoadManager.h"
+
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
-@interface ViewController () <ToolViewDelegate>
+@interface ZDplayViewController () <ToolViewDelegate>
 /// 视频播放模型
 @property(nonatomic, strong)PlayModel *playModel;
 /// 视频播放的背景view
@@ -29,10 +32,11 @@
 
 @end
 
-@implementation ViewController
+@implementation ZDplayViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     [self configU];
     [self configBolck];
 }
@@ -53,8 +57,13 @@
     }
     return true;
 }
+
+
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent: event];
+//    DownLoadModel *model = [[DownLoadModel alloc] init];
+//    model.downUrl = @"http://audio.xmcdn.com/group11/M01/93/AF/wKgDa1dzzJLBL0gCAPUzeJqK84Y539.m4a";
+//    [[DownLoadManager sharedInstance] startDownLoadModel:model];
 }
 
 #pragma mark - initUI
@@ -92,8 +101,13 @@
     /// 禁止滑动进度条
     [self.playView setSliderInterac: false];
     // 设置播放链接
-    [self configPlayModel: @"http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"];
-    __weak ViewController *weakSelf = self;
+   // [self configPlayModel: @"http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"];
+    // https://rbv01.ku6.com/wifi/o_1c08nhslb105j631jo0vltv29ckvs
+    // https://rbv01.ku6.com/wifi/o_1bsk87r9ca0q15rkqhr1v19r7hakvs
+    // https://rbv01.ku6.com/wifi/o_1br9l76gtmlr6ns1qju1814j8eakvs
+    [self configPlayModel:@"https://rbv01.ku6.com/wifi/o_1br9l76gtmlr6ns1qju1814j8eakvs"];
+  //  [self configPlayModel:@"http://audio.xmcdn.com/group11/M01/93/AF/wKgDa1dzzJLBL0gCAPUzeJqK84Y539.m4a"];
+    __weak ZDplayViewController *weakSelf = self;
     // 启动GCD定时
     [self.timerModel startTimerDelayTime: 0 RepeatTime: 1 HandleBlock:^{
         [weakSelf handleGCDTimerBlock];
@@ -131,7 +145,7 @@
 
 /// 设置block的回调
 -(void)configBolck {
-    __weak ViewController *weakSelf = self;
+    __weak ZDplayViewController *weakSelf = self;
     self.playView.playbuttonClickBock = ^(BOOL isPlay) {
         if (isPlay == true) {
             if (weakSelf.playModel.playStatus == AVPlayNoStartStatus) { // 还没开始播放

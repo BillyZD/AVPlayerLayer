@@ -7,6 +7,7 @@
 //
 
 #import "PlayModel.h"
+#import "NSString+Hash.h"
 
 
 @interface PlayModel()
@@ -94,7 +95,14 @@
     // 移除之前的播放资源
     [self freePlayer];
     // 设置新的播放资源
-    NSURL *url = [NSURL URLWithString: urlStr];
+    NSURL *url;
+    if ([self isCacheVedioPath:urlStr]) {
+        NSString *path = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent: urlStr.md5String];
+        url = [NSURL fileURLWithPath: [NSString stringWithFormat:@"%@.m4a",path]];
+        NSLog(@"本地视频%@" , [NSString stringWithFormat:@"%@.m4a",path]);
+    }else{
+        url = [NSURL URLWithString: urlStr];
+    }
     AVPlayerItem *playItem = [AVPlayerItem playerItemWithURL:url];
     self.avLayer = [AVPlayer playerWithPlayerItem:playItem];
     [self.avLayer addObserver: self  forKeyPath: @"timeControlStatus" options: NSKeyValueObservingOptionNew context:nil];
@@ -105,6 +113,18 @@
     [self reStartPlay];
     // 标记当前播放的链接
     self.currentPlayStr = urlStr;
+    
+    id observer = [self.avLayer addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:nil usingBlock:^(CMTime time) {
+        
+    }];
+    [self.avLayer removeTimeObserver:observer];
+}
+/// 判断是否为本地视频
+-(BOOL)isCacheVedioPath: (NSString *)path {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *cachePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent: path.md5String];
+    NSString *Path = [NSString stringWithFormat:@"%@.m4a", cachePath];
+    return [fm fileExistsAtPath: Path];
 }
 /// 开始播放
 -(void)reStartPlay {
