@@ -26,6 +26,13 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>rbv01.ku6.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
 			<key>audio.xmcdn.com</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>

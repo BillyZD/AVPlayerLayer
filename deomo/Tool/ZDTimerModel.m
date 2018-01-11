@@ -19,6 +19,9 @@
 -(instancetype)init {
     if (self = [super init]) {
         self.isPause = true;
+        if (!_timer) {
+            _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_global_queue(0, 0));
+        }
     }
     return self;
 }
@@ -44,9 +47,8 @@
         });
     });
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        self.isPause = false;
-        if (!_timer) {
-            dispatch_resume(self.timer);
+        if (self.isPause == YES) {
+            [self resumeGCDTimer];
         }
     });
     
@@ -68,10 +70,5 @@
 }
 
 #pragma mark -- set and get
--(dispatch_source_t)timer {
-    if (!_timer) {
-        _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_global_queue(0, 0));
-    }
-    return _timer;
-}
+
 @end

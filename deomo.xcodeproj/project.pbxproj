@@ -25,6 +25,8 @@
 		F43151912004FB6A00D43B58 /* DownLoadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F43151902004FB6A00D43B58 /* DownLoadModel.m */; };
 		F43151942004FEA200D43B58 /* DownLoadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F43151932004FEA200D43B58 /* DownLoadManager.m */; };
 		F43151972005162C00D43B58 /* NSString+Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = F43151962005162C00D43B58 /* NSString+Hash.m */; };
+		F431519A2006494700D43B58 /* VedeioListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F43151992006494700D43B58 /* VedeioListModel.m */; };
+		F431519D200653E700D43B58 /* VidelListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F431519C200653E700D43B58 /* VidelListTableViewCell.m */; };
 		F43FD6911FF298F400CEE4E2 /* ToolProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F43FD6901FF298F400CEE4E2 /* ToolProgressView.m */; };
 		F43FD69F1FF3E6E900CEE4E2 /* video-pause@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F43FD69B1FF3E6E900CEE4E2 /* video-pause@3x.png */; };
 		F43FD6A01FF3E6E900CEE4E2 /* video-play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F43FD69C1FF3E6E900CEE4E2 /* video-play@2x.png */; };
@@ -85,6 +87,10 @@
 		F43151932004FEA200D43B58 /* DownLoadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownLoadManager.m; sourceTree = "<group>"; };
 		F43151952005162C00D43B58 /* NSString+Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Hash.h"; sourceTree = "<group>"; };
 		F43151962005162C00D43B58 /* NSString+Hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Hash.m"; sourceTree = "<group>"; };
+		F43151982006494700D43B58 /* VedeioListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VedeioListModel.h; sourceTree = "<group>"; };
+		F43151992006494700D43B58 /* VedeioListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VedeioListModel.m; sourceTree = "<group>"; };
+		F431519B200653E700D43B58 /* VidelListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VidelListTableViewCell.h; sourceTree = "<group>"; };
+		F431519C200653E700D43B58 /* VidelListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VidelListTableViewCell.m; sourceTree = "<group>"; };
 		F43FD68F1FF298F400CEE4E2 /* ToolProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolProgressView.h; sourceTree = "<group>"; };
 		F43FD6901FF298F400CEE4E2 /* ToolProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToolProgressView.m; sourceTree = "<group>"; };
 		F43FD69B1FF3E6E900CEE4E2 /* video-pause@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-pause@3x.png"; sourceTree = "<group>"; };
@@ -184,6 +190,8 @@
 				F43FD6901FF298F400CEE4E2 /* ToolProgressView.m */,
 				F431517F1FF6071D00D43B58 /* ZDSlider.h */,
 				F43151801FF6071D00D43B58 /* ZDSlider.m */,
+				F431519B200653E700D43B58 /* VidelListTableViewCell.h */,
+				F431519C200653E700D43B58 /* VidelListTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -208,6 +216,8 @@
 			children = (
 				F40E338C1FF099F600AD4DD6 /* PlayModel.h */,
 				F40E338D1FF099F600AD4DD6 /* PlayModel.m */,
+				F43151982006494700D43B58 /* VedeioListModel.h */,
+				F43151992006494700D43B58 /* VedeioListModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -388,9 +398,11 @@
 				F43151871FFBB4E100D43B58 /* ZDTimerModel.m in Sources */,
 				F40E33561FED4FC500AD4DD6 /* main.m in Sources */,
 				F40E338A1FF0924D00AD4DD6 /* PlayBgView.m in Sources */,
+				F431519D200653E700D43B58 /* VidelListTableViewCell.m in Sources */,
 				F431518A1FFBC36900D43B58 /* ZDDownViewController.m in Sources */,
 				F43151972005162C00D43B58 /* NSString+Hash.m in Sources */,
 				F43151912004FB6A00D43B58 /* DownLoadModel.m in Sources */,
+				F431519A2006494700D43B58 /* VedeioListModel.m in Sources */,
 				F40E33451FED4FC500AD4DD6 /* AppDelegate.m in Sources */,
 				F43151811FF6071D00D43B58 /* ZDSlider.m in Sources */,
 				F40E338E1FF099F600AD4DD6 /* PlayModel.m in Sources */,
