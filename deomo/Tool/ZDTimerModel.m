@@ -19,6 +19,7 @@
 -(instancetype)init {
     if (self = [super init]) {
         self.isPause = true;
+        
         if (!_timer) {
             _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_global_queue(0, 0));
         }
